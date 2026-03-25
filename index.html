@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+\<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -7,14 +7,36 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container">
+    <div id="main-ui" class="container">
         <h1>Minco</h1>
-        <p>Enter a URL to get started</p>
+        <p>Enter a URL or select a shortcut</p>
+        
         <form id="proxy-form">
             <input type="text" id="url-input" placeholder="https://google.com" required>
             <button type="submit">Go</button>
         </form>
+
+        <div class="shortcut-container">
+            <div class="shortcut" onclick="launchSite('https://monochrome.tf')">
+                <div class="icon-placeholder">Music</div>
+            </div>
+            <div class="shortcut" onclick="launchSite('https://vexo.top')">
+                <div class="icon-placeholder">Movies</div>
+            </div>
+            <div class="shortcut" onclick="launchSite('https://youtube.com')">
+                <div class="icon-placeholder">YouTube</div>
+            </div>
+            <div class="shortcut" onclick="launchSite('https://reddit.com')">
+                <div class="icon-placeholder">Reddit</div>
+            </div>
+        </div>
     </div>
+
+    <div id="iframe-wrapper" class="hidden">
+        <button id="exit-btn">Exit Minco</button>
+        <iframe id="proxy-frame" src="" frameborder="0"></iframe>
+    </div>
+
     <script src="script.js"></script>
 </body>
 </html>
