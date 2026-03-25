@@ -1,0 +1,10 @@
+{
+  "name": "minco",
+  "version": "1.0.0",
+  "description": "A stylish web navigation tool.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {}
+}
