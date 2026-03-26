@@ -3,64 +3,96 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Minco | Premium Navigation</title>
+    <title>Minco | Pro</title>
     <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div id="particles-js"></div>
+    <div id="stars-container"></div>
 
     <div id="main-ui" class="container">
         <h1 class="logo">Minco</h1>
         
-        <div class="search-wrapper">
+        <div class="search-container">
             <form id="proxy-form">
-                <input type="text" id="url-input" placeholder="Search the web or enter URL..." autocomplete="off">
-                <button type="submit" id="go-btn">Explore</button>
+                <input type="text" id="url-input" placeholder="Search freely..." autocomplete="off">
+                <button type="submit">Explore</button>
             </form>
         </div>
 
-        <div class="shortcut-container">
-            <div class="shortcut" onclick="launchSite('https://monochrome.tf')">Music</div>
-            <div class="shortcut" onclick="launchSite('https://vexo.tv')">Movies</div>
-            <div class="shortcut" onclick="launchSite('https://youtube.com')">YouTube</div>
-            <div class="shortcut" onclick="launchSite('https://reddit.com')">Reddit</div>
+        <div class="shortcut-grid">
+            <div class="shortcut-card" onclick="launchSite('https://monochrome.tf')">
+                <div class="icon">🎵</div><span>Music</span>
+            </div>
+            <div class="shortcut-card" onclick="launchSite('https://vexo.tv')">
+                <div class="icon">🎬</div><span>Movies</span>
+            </div>
+            <div class="shortcut-card" onclick="launchSite('https://youtube.com')">
+                <div class="icon">📺</div><span>YouTube</span>
+            </div>
+            <div class="shortcut-card" onclick="launchSite('https://reddit.com')">
+                <div class="icon">💬</div><span>Reddit</span>
+            </div>
+        </div>
+
+        <div id="premium-notice" class="premium-banner hidden">
+            <p>⭐ <strong>Minco Premium:</strong> To be existing (not out yet). Stay tuned for ultra-speed nodes.</p>
+            <button onclick="closePremium()">Close</button>
         </div>
     </div>
 
     <div class="dock">
-        <div class="dock-item" onclick="toggleModal('settings-modal')">Settings</div>
-        <div class="dock-item" onclick="alert('Minco Premium: To be existing (not out yet)')">Premium</div>
-        <div class="dock-item" onclick="launchSite('https://freezenova.ai')">Chat</div>
-        <div class="dock-item" onclick="toggleModal('account-modal')">Account</div>
+        <div class="dock-btn" onclick="toggleModal('settings-modal')">⚙️</div>
+        <div class="dock-btn" onclick="showPremium()">💎</div>
+        <div class="dock-btn" onclick="launchSite('https://freezenova.ai/chat/')">🤖</div>
+        <div class="dock-btn" onclick="toggleModal('account-modal')">👤</div>
     </div>
 
     <div id="account-modal" class="modal hidden">
-        <div class="modal-content">
-            <span class="close" onclick="toggleModal('account-modal')">&times;</span>
-            <div id="login-form">
-                <h2>Sign In</h2>
-                <input type="text" placeholder="Username">
-                <input type="password" placeholder="Password">
-                <button class="btn-main">Login</button>
-                <p>No account? <span class="link" onclick="switchAccountView('signup')">Sign Up</span></p>
+        <div class="modal-glass">
+            <div id="login-section">
+                <h2>Welcome Back</h2>
+                <input type="text" class="nice-input" placeholder="Username">
+                <input type="password" class="nice-input" placeholder="Password">
+                <button class="action-btn">Sign In</button>
+                <p class="toggle-text">New here? <span onclick="switchAuth('up')">Create Account</span></p>
             </div>
-            <div id="signup-form" class="hidden">
-                <h2>Create Account</h2>
-                <input type="text" placeholder="Username">
-                <input type="email" placeholder="Email">
-                <input type="password" placeholder="Password">
-                <button class="btn-main">Register</button>
-                <p>Already have one? <span class="link" onclick="switchAccountView('login')">Login</span></p>
+            <div id="signup-section" class="hidden">
+                <h2>Join Minco</h2>
+                <input type="text" class="nice-input" placeholder="Username">
+                <input type="email" class="nice-input" placeholder="Email Address">
+                <input type="password" class="nice-input" placeholder="Password">
+                <button class="action-btn">Register</button>
+                <p class="toggle-text">Already a member? <span onclick="switchAuth('down')">Login</span></p>
             </div>
+            <button class="close-modal" onclick="toggleModal('account-modal')">Back</button>
+        </div>
+    </div>
+
+    <div id="settings-modal" class="modal hidden">
+        <div class="modal-glass">
+            <h2>Settings</h2>
+            <div class="setting-item">
+                <span>Theme Color</span>
+                <input type="color" id="theme-color" value="#00ffcc">
+            </div>
+            <div class="setting-item">
+                <span>Star Speed</span>
+                <input type="range" min="1" max="10" value="5">
+            </div>
+            <div class="setting-item">
+                <span>Panic Key</span>
+                <kbd>Alt + Q</kbd>
+            </div>
+            <button class="close-modal" onclick="toggleModal('settings-modal')">Save</button>
         </div>
     </div>
 
     <div id="iframe-wrapper" class="hidden">
-        <div class="frame-bar">
-            <span id="frame-url-display"></span>
-            <button id="exit-btn">Exit</button>
+        <div class="frame-nav">
+            <button onclick="closeFrame()">Exit Minco</button>
         </div>
-        <iframe id="proxy-frame" src=""></iframe>
+        <iframe id="proxy-frame"></iframe>
     </div>
 
     <script src="script.js"></script>
