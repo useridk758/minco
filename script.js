@@ -1,21 +1,18 @@
-// 1. Custom Cursor Logic
-const cursor = document.getElementById('custom-cursor');
+// 1. Dual-Part Custom Mouse
+const dot = document.getElementById('cursor-dot');
+const outline = document.getElementById('cursor-outline');
+
 document.addEventListener('mousemove', (e) => {
-    cursor.style.left = e.clientX + 'px';
-    cursor.style.top = e.clientY + 'px';
+    dot.style.left = e.clientX + 'px';
+    dot.style.top = e.clientY + 'px';
+    // Delayed outline for smooth effect
+    outline.animate({
+        left: (e.clientX - 15) + 'px',
+        top: (e.clientY - 15) + 'px'
+    }, { duration: 150, fill: "forwards" });
 });
 
-// 2. System Notifications
-function notify(msg) {
-    const container = document.getElementById('notification-container');
-    const n = document.createElement('div');
-    n.className = 'notif';
-    n.innerText = msg;
-    container.appendChild(n);
-    setTimeout(() => n.remove(), 4000);
-}
-
-// 3. Browser Navigation
+// 2. Fullscreen Launch Logic
 function launchSite(url) {
     const wrapper = document.getElementById('iframe-wrapper');
     const frame = document.getElementById('proxy-frame');
@@ -25,15 +22,7 @@ function launchSite(url) {
     frame.src = target;
     addr.value = target;
     wrapper.classList.remove('hidden');
-    notify("Navigating to " + url);
-}
-
-function navigateBrowser() {
-    launchSite(document.getElementById('browser-address-bar').value);
-}
-
-function refreshFrame() {
-    document.getElementById('proxy-frame').contentWindow.location.reload();
+    notify("System routing: " + url);
 }
 
 function closeFrame() {
@@ -41,65 +30,72 @@ function closeFrame() {
     document.getElementById('proxy-frame').src = "";
 }
 
-// 4. Auth Logic (Local Storage Simulation)
+function refreshFrame() { document.getElementById('proxy-frame').contentWindow.location.reload(); }
+
+// 3. Functional Settings
+document.getElementById('accent-picker').oninput = (e) => {
+    document.documentElement.style.setProperty('--accent', e.target.value);
+};
+
+document.getElementById('star-slider').onchange = (e) => {
+    generateStars(e.target.value);
+    notify("Particles updated to " + e.target.value);
+};
+
+// 4. Notifications
+function notify(msg) {
+    const container = document.getElementById('notification-container');
+    const n = document.createElement('div');
+    n.style.cssText = "background:rgba(0,0,0,0.8); border-left:3px solid var(--accent); padding:10px 20px; margin-top:10px; border-radius:5px; font-size:14px; animation: slide 0.3s ease;";
+    n.innerText = msg;
+    container.appendChild(n);
+    setTimeout(() => n.remove(), 3000);
+}
+
+// 5. Auth & UI Toggles
 function handleRegister() {
-    const user = document.getElementById('reg-user').value;
-    const pass = document.getElementById('reg-pass').value;
-    if(user && pass) {
-        localStorage.setItem(`user_${user}`, pass);
-        notify("Account created for " + user);
+    const u = document.getElementById('reg-user').value;
+    const p = document.getElementById('reg-pass').value;
+    if(u && p) {
+        localStorage.setItem(`minco_user_${u}`, p);
+        notify("Account registered: " + u);
         switchAuth('down');
-    } else {
-        notify("Please fill all fields!");
     }
 }
 
 function handleLogin() {
-    const user = document.getElementById('login-user').value;
-    const pass = document.getElementById('login-pass').value;
-    const savedPass = localStorage.getItem(`user_${user}`);
-    
-    if(savedPass === pass && user !== "") {
-        notify("Welcome back, " + user + "!");
+    const u = document.getElementById('login-user').value;
+    const p = document.getElementById('login-pass').value;
+    if(localStorage.getItem(`minco_user_${u}`) === p && u !== "") {
+        notify("Welcome to Minco, " + u);
         toggleModal('account-modal');
     } else {
-        notify("Invalid credentials.");
+        notify("Access Denied.");
     }
 }
 
-// 5. General UI
-function toggleModal(id) {
-    document.getElementById(id).classList.toggle('hidden');
-}
-
+function toggleModal(id) { document.getElementById(id).classList.toggle('hidden'); }
 function switchAuth(dir) {
     document.getElementById('login-section').classList.toggle('hidden', dir === 'up');
     document.getElementById('signup-section').classList.toggle('hidden', dir === 'down');
 }
 
-function showPremium() {
-    document.getElementById('premium-notice').classList.remove('hidden');
-}
+function showPremium() { document.getElementById('premium-notice').classList.remove('hidden'); }
+function closePremium() { document.getElementById('premium-notice').classList.add('hidden'); }
 
-function closePremium() {
-    document.getElementById('premium-notice').classList.add('hidden');
+// 6. Stars Engine
+function generateStars(count) {
+    const sBox = document.getElementById('stars-container');
+    sBox.innerHTML = '';
+    for(let i=0; i<count; i++) {
+        let s = document.createElement('div');
+        s.style.cssText = `position:fixed; left:${Math.random()*100}vw; top:${Math.random()*100}vh; width:2px; height:2px; background:white; opacity:${Math.random()}; pointer-events:none;`;
+        sBox.appendChild(s);
+    }
 }
+generateStars(100);
 
-// Search Form
 document.getElementById('proxy-form').onsubmit = (e) => {
     e.preventDefault();
     launchSite(document.getElementById('url-input').value);
 };
-
-// Background Stars (Persistent)
-const starBox = document.getElementById('stars-container');
-for(let i=0; i<100; i++) {
-    let s = document.createElement('div');
-    s.style.position = 'fixed';
-    s.style.left = Math.random()*100+'vw';
-    s.style.top = Math.random()*100+'vh';
-    s.style.width = '2px'; s.style.height = '2px';
-    s.style.background = 'white';
-    s.style.opacity = Math.random();
-    starBox.appendChild(s);
-}
