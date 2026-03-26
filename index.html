@@ -3,19 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Minco | Pro</title>
+    <title>Minco | OS</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
 </head>
 <body>
+    <div id="custom-cursor"></div>
     <div id="stars-container"></div>
+    <div id="notification-container"></div>
 
     <div id="main-ui" class="container">
         <h1 class="logo">Minco</h1>
         
-        <div class="search-container">
+        <div class="search-wrapper">
             <form id="proxy-form">
-                <input type="text" id="url-input" placeholder="Search freely..." autocomplete="off">
+                <input type="text" id="url-input" placeholder="Search the universe..." autocomplete="off">
                 <button type="submit">Explore</button>
             </form>
         </div>
@@ -36,7 +38,7 @@
         </div>
 
         <div id="premium-notice" class="premium-banner hidden">
-            <p>⭐ <strong>Minco Premium:</strong> To be existing (not out yet). Stay tuned for ultra-speed nodes.</p>
+            <p>💎 <strong>Minco Premium:</strong> To be existing (not out yet).</p>
             <button onclick="closePremium()">Close</button>
         </div>
     </div>
@@ -52,45 +54,29 @@
         <div class="modal-glass">
             <div id="login-section">
                 <h2>Welcome Back</h2>
-                <input type="text" class="nice-input" placeholder="Username">
-                <input type="password" class="nice-input" placeholder="Password">
-                <button class="action-btn">Sign In</button>
-                <p class="toggle-text">New here? <span onclick="switchAuth('up')">Create Account</span></p>
+                <input type="text" id="login-user" class="nice-input" placeholder="Username">
+                <input type="password" id="login-pass" class="nice-input" placeholder="Password">
+                <button class="action-btn" onclick="handleLogin()">Sign In</button>
+                <p class="toggle-text">New? <span class="link-btn" onclick="switchAuth('up')">Create Account</span></p>
             </div>
             <div id="signup-section" class="hidden">
                 <h2>Join Minco</h2>
-                <input type="text" class="nice-input" placeholder="Username">
-                <input type="email" class="nice-input" placeholder="Email Address">
-                <input type="password" class="nice-input" placeholder="Password">
-                <button class="action-btn">Register</button>
-                <p class="toggle-text">Already a member? <span onclick="switchAuth('down')">Login</span></p>
+                <input type="text" id="reg-user" class="nice-input" placeholder="Username">
+                <input type="email" id="reg-email" class="nice-input" placeholder="Email">
+                <input type="password" id="reg-pass" class="nice-input" placeholder="Password">
+                <button class="action-btn" onclick="handleRegister()">Register</button>
+                <p class="toggle-text">Member? <span class="link-btn" onclick="switchAuth('down')">Login</span></p>
             </div>
-            <button class="close-modal" onclick="toggleModal('account-modal')">Back</button>
-        </div>
-    </div>
-
-    <div id="settings-modal" class="modal hidden">
-        <div class="modal-glass">
-            <h2>Settings</h2>
-            <div class="setting-item">
-                <span>Theme Color</span>
-                <input type="color" id="theme-color" value="#00ffcc">
-            </div>
-            <div class="setting-item">
-                <span>Star Speed</span>
-                <input type="range" min="1" max="10" value="5">
-            </div>
-            <div class="setting-item">
-                <span>Panic Key</span>
-                <kbd>Alt + Q</kbd>
-            </div>
-            <button class="close-modal" onclick="toggleModal('settings-modal')">Save</button>
+            <button class="close-modal" onclick="toggleModal('account-modal')">Close</button>
         </div>
     </div>
 
     <div id="iframe-wrapper" class="hidden">
-        <div class="frame-nav">
-            <button onclick="closeFrame()">Exit Minco</button>
+        <div class="browser-toolbar">
+            <button onclick="closeFrame()">🏠</button>
+            <button onclick="refreshFrame()">🔄</button>
+            <input type="text" id="browser-address-bar" placeholder="Enter URL...">
+            <button onclick="navigateBrowser()">Go</button>
         </div>
         <iframe id="proxy-frame"></iframe>
     </div>
