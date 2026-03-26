@@ -8,38 +8,41 @@
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div id="custom-cursor"></div>
+    <div id="cursor-dot"></div>
+    <div id="cursor-outline"></div>
     <div id="stars-container"></div>
     <div id="notification-container"></div>
 
-    <div id="main-ui" class="container">
-        <h1 class="logo">Minco</h1>
-        
-        <div class="search-wrapper">
-            <form id="proxy-form">
-                <input type="text" id="url-input" placeholder="Search the universe..." autocomplete="off">
-                <button type="submit">Explore</button>
-            </form>
-        </div>
+    <div id="main-ui" class="viewport">
+        <div class="central-hub">
+            <h1 class="logo">Minco</h1>
+            
+            <div class="search-wrapper">
+                <form id="proxy-form">
+                    <input type="text" id="url-input" placeholder="Search the universe..." autocomplete="off">
+                    <button type="submit">Explore</button>
+                </form>
+            </div>
 
-        <div class="shortcut-grid">
-            <div class="shortcut-card" onclick="launchSite('https://monochrome.tf')">
-                <div class="icon">🎵</div><span>Music</span>
+            <div class="shortcut-grid">
+                <div class="shortcut-card" onclick="launchSite('https://monochrome.tf')">
+                    <div class="icon">🎵</div><span>Music</span>
+                </div>
+                <div class="shortcut-card" onclick="launchSite('https://vexo.tv')">
+                    <div class="icon">🎬</div><span>Movies</span>
+                </div>
+                <div class="shortcut-card" onclick="launchSite('https://youtube.com')">
+                    <div class="icon">📺</div><span>YouTube</span>
+                </div>
+                <div class="shortcut-card" onclick="launchSite('https://reddit.com')">
+                    <div class="icon">💬</div><span>Reddit</span>
+                </div>
             </div>
-            <div class="shortcut-card" onclick="launchSite('https://vexo.tv')">
-                <div class="icon">🎬</div><span>Movies</span>
-            </div>
-            <div class="shortcut-card" onclick="launchSite('https://youtube.com')">
-                <div class="icon">📺</div><span>YouTube</span>
-            </div>
-            <div class="shortcut-card" onclick="launchSite('https://reddit.com')">
-                <div class="icon">💬</div><span>Reddit</span>
-            </div>
-        </div>
 
-        <div id="premium-notice" class="premium-banner hidden">
-            <p>💎 <strong>Minco Premium:</strong> To be existing (not out yet).</p>
-            <button onclick="closePremium()">Close</button>
+            <div id="premium-notice" class="premium-banner hidden">
+                <p>💎 <strong>Minco Premium:</strong> To be existing (not out yet).</p>
+                <button onclick="closePremium()">Close</button>
+            </div>
         </div>
     </div>
 
@@ -50,21 +53,35 @@
         <div class="dock-btn" onclick="toggleModal('account-modal')">👤</div>
     </div>
 
+    <div id="settings-modal" class="modal hidden">
+        <div class="modal-glass">
+            <h2>System Settings</h2>
+            <div class="setting-row">
+                <label>Accent Color</label>
+                <input type="color" id="accent-picker" value="#00ffcc">
+            </div>
+            <div class="setting-row">
+                <label>Particle Density</label>
+                <input type="range" min="20" max="200" value="100" id="star-slider">
+            </div>
+            <button class="action-btn" onclick="toggleModal('settings-modal')">Apply Changes</button>
+        </div>
+    </div>
+
     <div id="account-modal" class="modal hidden">
         <div class="modal-glass">
             <div id="login-section">
-                <h2>Welcome Back</h2>
+                <h2>Welcome</h2>
                 <input type="text" id="login-user" class="nice-input" placeholder="Username">
                 <input type="password" id="login-pass" class="nice-input" placeholder="Password">
                 <button class="action-btn" onclick="handleLogin()">Sign In</button>
-                <p class="toggle-text">New? <span class="link-btn" onclick="switchAuth('up')">Create Account</span></p>
+                <p class="toggle-text">New? <span class="link-btn" onclick="switchAuth('up')">Register</span></p>
             </div>
             <div id="signup-section" class="hidden">
                 <h2>Join Minco</h2>
                 <input type="text" id="reg-user" class="nice-input" placeholder="Username">
-                <input type="email" id="reg-email" class="nice-input" placeholder="Email">
                 <input type="password" id="reg-pass" class="nice-input" placeholder="Password">
-                <button class="action-btn" onclick="handleRegister()">Register</button>
+                <button class="action-btn" onclick="handleRegister()">Create Account</button>
                 <p class="toggle-text">Member? <span class="link-btn" onclick="switchAuth('down')">Login</span></p>
             </div>
             <button class="close-modal" onclick="toggleModal('account-modal')">Close</button>
@@ -72,10 +89,10 @@
     </div>
 
     <div id="iframe-wrapper" class="hidden">
-        <div class="browser-toolbar">
+        <div class="browser-nav-overlay">
             <button onclick="closeFrame()">🏠</button>
             <button onclick="refreshFrame()">🔄</button>
-            <input type="text" id="browser-address-bar" placeholder="Enter URL...">
+            <input type="text" id="browser-address-bar">
             <button onclick="navigateBrowser()">Go</button>
         </div>
         <iframe id="proxy-frame"></iframe>
